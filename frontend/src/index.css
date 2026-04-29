@@ -4,19 +4,24 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Space Grotesk', 'Segoe UI', 'Tahoma', sans-serif;
+  font-family: 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1f1a12;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(255, 204, 112, 0.35), transparent 35%),
-    linear-gradient(125deg, #124559 0%, #4b2e83 45%, #f29f05 100%);
+    radial-gradient(circle at top left, rgba(199, 160, 78, 0.18), transparent 32%),
+    radial-gradient(circle at 85% 10%, rgba(226, 199, 142, 0.18), transparent 24%),
+    linear-gradient(180deg, #fbf7ef 0%, #f4efe4 44%, #ece4d6 100%);
   min-height: 100vh;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }
 
 #root {

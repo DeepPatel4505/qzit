@@ -60,56 +60,60 @@ export default function App() {
   };
 
   return (
-    <div className="app">
-      <div className="header">
-        <h1>🎯 Qzit</h1>
-        <p>Create and Take Quizzes with Image Support</p>
-      </div>
-
-      {currentView !== 'list' && (
-        <div className="nav" style={{ marginBottom: '20px' }}>
-          <button
-            className="nav-btn"
-            onClick={handleBackToList}
-          >
-            ← Back to Quizzes
-          </button>
+    <div className="app-shell">
+      <header className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow">Qzit</span>
+          <h1>Minimal quizzes with a refined gold accent.</h1>
+          <p>
+            Create, share, and take image-rich quizzes in a clean workspace designed to stay out of the way.
+          </p>
         </div>
-      )}
 
-      {currentView === 'list' && (
-        <QuizList
-          onSelectQuiz={handleSelectQuiz}
-          onCreateQuiz={handleCreateQuizClick}
-          onEditQuiz={handleEditQuiz}
-        />
-      )}
+        {currentView !== 'list' ? (
+          <button className="nav-btn nav-btn-ghost" onClick={handleBackToList}>
+            Back to quizzes
+          </button>
+        ) : (
+          <div className="hero-badge">Focused layout • Subtle motion • Warm neutral palette</div>
+        )}
+      </header>
 
-      {(currentView === 'create' || currentView === 'edit') && (
-        <CreateQuiz
-          quizToEdit={quizToEdit}
-          isEditMode={currentView === 'edit'}
-          onComplete={handleQuizCreated}
-          onUpdateComplete={handleQuizUpdated}
-          onCancel={handleBackToList}
-        />
-      )}
+      <main className="app-content">
+        {currentView === 'list' && (
+          <QuizList
+            onSelectQuiz={handleSelectQuiz}
+            onCreateQuiz={handleCreateQuizClick}
+            onEditQuiz={handleEditQuiz}
+          />
+        )}
 
-      {currentView === 'attempt' && selectedQuizId && (
-        <AttemptQuiz
-          quizId={selectedQuizId}
-          onComplete={handleQuizCompleted}
-          onCancel={handleBackToList}
-        />
-      )}
+        {(currentView === 'create' || currentView === 'edit') && (
+          <CreateQuiz
+            quizToEdit={quizToEdit}
+            isEditMode={currentView === 'edit'}
+            onComplete={handleQuizCreated}
+            onUpdateComplete={handleQuizUpdated}
+            onCancel={handleBackToList}
+          />
+        )}
 
-      {currentView === 'results' && resultAttemptId && (
-        <Results
-          attemptId={resultAttemptId}
-          onBack={handleBackToList}
-          onRetry={handleRetryQuiz}
-        />
-      )}
+        {currentView === 'attempt' && selectedQuizId && (
+          <AttemptQuiz
+            quizId={selectedQuizId}
+            onComplete={handleQuizCompleted}
+            onCancel={handleBackToList}
+          />
+        )}
+
+        {currentView === 'results' && resultAttemptId && (
+          <Results
+            attemptId={resultAttemptId}
+            onBack={handleBackToList}
+            onRetry={handleRetryQuiz}
+          />
+        )}
+      </main>
     </div>
   );
 }
