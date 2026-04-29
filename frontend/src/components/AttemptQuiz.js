@@ -326,7 +326,7 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
   if (showUserForm) {
     return (
       <div className="container">
-        <div className="card" style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <div className="card attempt-panel">
           <h2>{quiz.title}</h2>
           <p>{quiz.description}</p>
 
@@ -353,7 +353,7 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
             />
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
+          <div className="attempt-intro">
             <p><strong>📚 Questions:</strong> {quiz.questions.length}</p>
             <p><strong>🎯 Passing Score:</strong> {quiz.passingScore}%</p>
             {quiz.timeLimit > 0 && (
@@ -396,7 +396,7 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
 
   return (
     <div className="container">
-      <div className="card" style={{ maxWidth: '700px', margin: '0 auto' }}>
+      <div className="card attempt-panel attempt-panel-wide">
         {quiz.timeLimit > 0 && (
           <div
             className={`timer ${
@@ -414,18 +414,14 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
           </div>
         )}
 
-        <div style={{ marginBottom: '20px' }}>
+        <div className="attempt-intro">
           <h3>
             Question {currentQuestionIndex + 1} of {quiz.questions.length}
           </h3>
-          <div style={{ height: '8px', background: '#f0f0f0', borderRadius: '4px', overflow: 'hidden' }}>
+          <div className="progress-track">
             <div
-              style={{
-                height: '100%',
-                width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%`,
-                background: 'linear-gradient(90deg, #667eea, #764ba2)',
-                transition: 'width 0.3s ease'
-              }}
+              className="progress-fill"
+              style={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
             ></div>
           </div>
         </div>
@@ -466,18 +462,9 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
           {currentQuestion.answers.map((answer, index) => (
             <div
               key={answer.id}
-              className="answer-option"
-              style={{
-                cursor: 'pointer',
-                background:
-                  (answers[currentQuestion.id] || []).includes(answer.id)
-                    ? '#f0f0ff'
-                    : 'white',
-                borderColor:
-                  (answers[currentQuestion.id] || []).includes(answer.id)
-                    ? '#667eea'
-                    : '#e0e0e0'
-              }}
+              className={`answer-option ${
+                (answers[currentQuestion.id] || []).includes(answer.id) ? 'selected' : ''
+              }`}
               onClick={() => handleSelectAnswer(answer.id)}
             >
               <input
@@ -488,19 +475,13 @@ export default function AttemptQuiz({ quizId, onComplete, onCancel }) {
                 onChange={() => handleSelectAnswer(answer.id)}
               />
               <label htmlFor={answer.id}>
-                <div>
+                  <div className="answer-content">
                   <span>{answer.text || 'Image-only answer'}</span>
                   {answer.imageUrl && (
                     <img
                       src={answer.imageUrl}
                       alt="Answer"
-                      style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        maxHeight: '150px',
-                        marginTop: '10px',
-                        borderRadius: '4px'
-                      }}
+                        className="answer-image"
                     />
                   )}
                 </div>

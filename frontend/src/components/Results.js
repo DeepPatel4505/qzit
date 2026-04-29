@@ -76,24 +76,17 @@ export default function Results({ attemptId, onBack, onRetry }) {
 
   const formatAnswerList = (answerList = []) => {
     if (!answerList.length) {
-      return <span style={{ color: '#999' }}>No answer selected</span>;
+      return <span className="empty-answer">No answer selected</span>;
     }
 
     return answerList.map((answer) => (
-      <div key={answer.id} style={{ marginBottom: '8px' }}>
+      <div key={answer.id} className="answer-review-item">
         <span>{answer.text || 'Image-only answer'}</span>
         {answer.imageUrl && (
           <img
             src={answer.imageUrl}
             alt="Answer"
-            style={{
-              display: 'block',
-              maxWidth: '100%',
-              height: 'auto',
-              maxHeight: '150px',
-              marginTop: '10px',
-              borderRadius: '4px'
-            }}
+            className="answer-image"
           />
         )}
       </div>
@@ -106,10 +99,7 @@ export default function Results({ attemptId, onBack, onRetry }) {
         <div className="results-card">
           <h2>{quiz.title} - Results</h2>
 
-          <div
-            className={attempt.passed ? 'pass-message' : 'fail-message'}
-            style={{ fontSize: '1.5em', marginBottom: '20px' }}
-          >
+          <div className={attempt.passed ? 'pass-message' : 'fail-message'}>
             {attempt.passed ? '🎉 Passed!' : '❌ Not Passed'}
           </div>
 
@@ -138,9 +128,9 @@ export default function Results({ attemptId, onBack, onRetry }) {
             </div>
           </div>
 
-          <hr style={{ margin: '30px 0' }} />
+          <hr className="section-divider" />
 
-          <h3 style={{ marginBottom: '20px' }}>Review Answers</h3>
+          <h3 className="section-title">Review Answers</h3>
 
           {attempt.answers.map((answer, index) => {
             const question = answer.question;
@@ -156,27 +146,15 @@ export default function Results({ attemptId, onBack, onRetry }) {
             );
 
             return (
-              <div key={index} className="card" style={{ marginBottom: '15px' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginBottom: '10px'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '1.2em',
-                      marginRight: '10px',
-                      color: isCorrect ? '#51cf66' : '#ff6b6b'
-                    }}
-                  >
+              <div key={index} className="card result-review-card">
+                <div className="result-review-header">
+                  <span className={isCorrect ? 'review-mark correct' : 'review-mark incorrect'}>
                     {isCorrect ? '✓' : '✗'}
                   </span>
-                  <h4 style={{ margin: 0 }}>Question {index + 1}</h4>
+                  <h4>Question {index + 1}</h4>
                 </div>
 
-                <p style={{ marginBottom: '10px' }}>
+                <p>
                   <strong>Question:</strong> {question.text}
                 </p>
 
@@ -185,20 +163,19 @@ export default function Results({ attemptId, onBack, onRetry }) {
                     src={question.imageUrl}
                     alt="Question"
                     className="question-image"
-                    style={{ marginBottom: '10px' }}
                   />
                 )}
 
-                <p style={{ marginBottom: '10px' }}>
+                <p className="review-answer-label">
                   <strong>Your Answer:</strong>{' '}
                   {formatAnswerList(selectedAnswers)}
                 </p>
 
                 {!isCorrect && (
                   <>
-                    <p style={{ marginBottom: '10px' }}>
+                    <p className="review-answer-label">
                       <strong>Correct Answer:</strong>{' '}
-                      <span style={{ color: '#51cf66', fontWeight: 'bold' }}>
+                      <span className="correct-note">
                         {correctAnswers.length > 1 ? 'Multiple correct answers:' : ''}
                       </span>
                     </p>
@@ -207,7 +184,7 @@ export default function Results({ attemptId, onBack, onRetry }) {
                 )}
 
                 {question.description && (
-                  <p style={{ marginTop: '10px', fontStyle: 'italic', color: '#666' }}>
+                  <p className="review-explanation">
                     <strong>Explanation:</strong> {question.description}
                   </p>
                 )}
@@ -215,18 +192,16 @@ export default function Results({ attemptId, onBack, onRetry }) {
             );
           })}
 
-          <div style={{ marginTop: '30px', display: 'flex', gap: '10px' }}>
+          <div className="results-actions">
             <button
               className="btn btn-primary"
               onClick={onBack}
-              style={{ flex: 1 }}
             >
               Back to Quizzes
             </button>
             <button
               className="btn btn-secondary"
               onClick={() => onRetry?.(quiz._id)}
-              style={{ flex: 1 }}
             >
               Retry Quiz
             </button>
