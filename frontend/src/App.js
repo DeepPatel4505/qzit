@@ -86,9 +86,9 @@ function AppContent() {
       <header className="hero">
         <div className="hero-copy">
           <span className="eyebrow">Qzit</span>
-          <h1>Minimal quizzes with a refined gold accent.</h1>
+          <h1>A focused quiz workspace for creating and taking assessments.</h1>
           <p>
-            Create, share, and take image-rich quizzes in a clean workspace designed to stay out of the way.
+            Keep quiz creation and attempts simple, fast, and visually quiet.
           </p>
         </div>
 
@@ -107,7 +107,7 @@ function AppContent() {
               Back to quizzes
             </button>
           ) : (
-            <div className="hero-badge">Focused layout • Subtle motion • Warm neutral palette</div>
+            <div className="hero-badge">Fast discovery • Clean structure • Private sessions</div>
           )}
         </div>
       </header>

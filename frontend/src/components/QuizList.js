@@ -76,10 +76,18 @@ export default function QuizList({ onSelectQuiz, onCreateQuiz, onEditQuiz }) {
   return (
     <div className="container">
       {error && <div className="error-message">{error}</div>}
-      <div className="list-toolbar">
-        <button className="btn btn-primary" onClick={onCreateQuiz}>
-          + Create New Quiz
-        </button>
+      <div className="list-header">
+        <div className="list-header-copy">
+          <span className="eyebrow">Library</span>
+          <h2>Choose a quiz or build a new one.</h2>
+          <p>Use the filters to narrow the list without losing the calm layout.</p>
+        </div>
+
+        <div className="list-toolbar">
+          <button className="btn btn-primary" onClick={onCreateQuiz}>
+            New quiz
+          </button>
+        </div>
       </div>
 
       <form className="discovery-controls" onSubmit={handleSearchSubmit}>
@@ -114,7 +122,7 @@ export default function QuizList({ onSelectQuiz, onCreateQuiz, onEditQuiz }) {
       </form>
 
       {quizzes.length === 0 ? (
-        <div className="card" style={{ textAlign: 'center' }}>
+        <div className="card empty-state">
           <h2>No Quizzes Yet</h2>
           <p>Try adjusting your filters or create your first quiz.</p>
         </div>
