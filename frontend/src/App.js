@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles.css';
 import QuizList from './components/QuizList';
 import CreateQuiz from './components/CreateQuiz';
 import AttemptQuiz from './components/AttemptQuiz';
 import Results from './components/Results';
+import Login from './components/Login';
+import Register from './components/Register';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { quizAPI } from './api';
 
-export default function App() {
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading-screen">Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+function AppContent() {
+  const { isAuthenticated, user, logout } = useAuth();
   const [currentView, setCurrentView] = useState('list'); // list, create, edit, attempt, results
   const [selectedQuizId, setSelectedQuizId] = useState(null);
   const [resultAttemptId, setResultAttemptId] = useState(null);
@@ -29,7 +48,6 @@ export default function App() {
       setCurrentView('edit');
     } catch (error) {
       console.error(error);
-    } finally {
     }
   };
 
@@ -59,6 +77,10 @@ export default function App() {
     setQuizToEdit(null);
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div className="app-shell">
       <header className="hero">
@@ -70,13 +92,24 @@ export default function App() {
           </p>
         </div>
 
-        {currentView !== 'list' ? (
-          <button className="nav-btn nav-btn-ghost" onClick={handleBackToList}>
-            Back to quizzes
-          </button>
-        ) : (
-          <div className="hero-badge">Focused layout • Subtle motion • Warm neutral palette</div>
-        )}
+        <div className="header-controls">
+          {isAuthenticated && (
+            <div className="user-info">
+              <span>Welcome, {user?.username}!</span>
+              <button className="nav-btn nav-btn-ghost logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          )}
+
+          {currentView !== 'list' ? (
+            <button className="nav-btn nav-btn-ghost" onClick={handleBackToList}>
+              Back to quizzes
+            </button>
+          ) : (
+            <div className="hero-badge">Focused layout • Subtle motion • Warm neutral palette</div>
+          )}
+        </div>
       </header>
 
       <main className="app-content">
@@ -115,5 +148,26 @@ export default function App() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <AppContent />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
 }
